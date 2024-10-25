@@ -1,0 +1,16 @@
+set_io led0 2
+set_io led1 46
+set_io led2 47
+set_io led3 45
+set_io led4 48
+set_io led5 3
+set_io led6 4
+set_io led7 44
+set_io led8 6
+set_io led9 9
+set_io led10 11
+set_io led11 18
+set_io led12 19
+set_io led13 13
+set_io led14 21
+set_io led15 12
