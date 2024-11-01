@@ -66,10 +66,10 @@ image = Image.new('1', (width, height))
 draw = ImageDraw.Draw(image)
 
 # Load fonts
-font_path = f"/home/mech/projects/display/{font_file_name}"
+font_path = font_file_name
 font_r = ImageFont.truetype(font_path, font_size)
 font_sm = ImageFont.truetype(font_path, font_size - 2)
-font_m = ImageFont.truetype('/home/mech/projects/display/UbuntuMono-R.ttf', 12)
+font_m = ImageFont.truetype('UbuntuMono-R.ttf', 12)
 
 # Function to update the display with the image
 def update_display():

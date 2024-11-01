@@ -37,10 +37,10 @@ image = Image.new('1', (width, height))
 draw = ImageDraw.Draw(image)
 
 # load fonts
-font_path = f"/home/mech/projects/display/{font_file_name}"
+font_path = font_file_name
 font = ImageFont.truetype(font_path, font_size)
 font_sm = ImageFont.truetype(font_path, font_size-2)
-_font_mono_path = "/home/mech/projects/display/UbuntuMono-R.ttf"
+_font_mono_path = "UbuntuMono-R.ttf"
 font_mono = ImageFont.truetype(_font_mono_path, 11)
 font_mono_lg = ImageFont.truetype(_font_mono_path, 14)
 
