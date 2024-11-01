@@ -1,4 +1,4 @@
-# Code written by Micah Laing on 2024-11-1 for the UVU Mechatronics Lab 32-Pi project.
+# Code written by Micah Laing on 2024-11-01 for the UVU Mechatronics Lab 32-Pi project.
 # This is a driver that will initialize an OLED display from GPIO pins 17 and 27 on RPi-5.
 
 import smbus
