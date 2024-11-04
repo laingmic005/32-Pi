@@ -1,6 +1,3 @@
-# Code written by Micah Laing on November 1, 2024 for the Mauna Kea
-# (32 Pi) Project.
-
 import socket
 import time
 import smbus
@@ -18,41 +15,33 @@ I2C_ADDRESS = 0x3C
 # Create I2C bus
 bus = smbus.SMBus(3)  # Use the correct SMBus number for your setup
 
-# Function to initialize the OLED display print(f"Sent command: {hex(command)}")  # Debug print
+# Function to initialize the OLED display
 def oled_init():
     commands = [
         0xAE,  # Display off
-        0xD5,  # Set display clock divide ratio/oscillator frequency
-        0x80,  # Set clock as 100 Frames/Sec
-        0xA8,  # Set multiplex ratio
-        0x3F,  # 64 multiplex
-        0xD3,  # Set display offset
-        0x00,  # No offset
-        0x40,  # Set start line
-        0x8D,  # Charge pump
-        0x14,  # Enable charge pump
-        0x20,  # Memory addressing mode
-        0x00,  # Horizontal addressing mode
-        0xA1,  # Set segment re-map
-        0xC8,  # Set COM output scan direction
-        0xDA,  # Set COM pins hardware configuration
-        0x12,  # Alternative COM pin configuration
-        0x81,  # Set contrast control
-        0x7F,  # Maximum contrast
-        0xD9,  # Set pre-charge period
-        0xF1,  # Phase 1: 0xF1, Phase 2: 0xF2
-        0xDB,  # Set VCOMH deselect level
-        0x40,  # VCOMH deselect level
-        0xA4,  # Entire display on
-        0xA6,  # Normal display
-        0xAF   # Display on
+        0xD5, 0x80,  # Set display clock divide ratio/oscillator frequency
+        0xA8, 0x3F,  # Set multiplex ratio (1 to 64)
+        0xD3, 0x00,  # Set display offset
+        0x40,        # Set start line address
+        0x8D, 0x14,  # Enable charge pump regulator
+        0x20, 0x00,  # Set memory addressing mode to horizontal
+        0xA1,        # Set segment re-map 0 to 127
+        0xC8,        # Set COM output scan direction
+        0xDA, 0x12,  # Set COM pins hardware configuration
+        0x81, 0x7F,  # Set contrast control
+        0xD9, 0xF1,  # Set pre-charge period
+        0xDB, 0x40,  # Set VCOMH deselect level
+        0xA4,        # Enable display RAM content
+        0xA6,        # Set normal display mode
+        0xAF         # Display on
     ]
-    for command in commands:
-        bus.write_byte(I2C_ADDRESS, command)
-        print(f"Sent command: {hex(command)}")  # Debug print
-        time.sleep(0.01)
-        
-# Function to clear the display
+    
+    # Send each command to the OLED
+    for cmd in commands:
+        bus.write_byte_data(I2C_ADDRESS, 0x00, cmd)
+        time.sleep(0.01)  # Small delay to ensure command processing
+
+        # Function to clear the display
 def clear_oled():
     # Clear each of the 8 pages for the 64 pixels height
     for page in range(8):  # There are 8 pages for a 64-pixel height display
