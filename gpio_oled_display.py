@@ -1,3 +1,13 @@
+'''
+Code written by Micah Laing on 6 November 2024. This will display the IP Address and Hostname
+of the Raspberry Pi using GPIO 17 & 27. To run this code, open /boot/firmware/config.txt and
+add the following line to the end of the file:
+
+    dtoverlay=i2c-gpio,bus=3,i2c_gpio_sda=17,i2c_gpio_scl=27
+
+Then reboot your Raspberry Pi.
+'''
+
 import socket
 import time
 import smbus
