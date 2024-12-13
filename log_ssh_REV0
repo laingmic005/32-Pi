@@ -1,4 +1,4 @@
-# save as /etc/ssh/sshrc
+# save as /etc/ssh/sshrc <remove this line>
 
 
 #!/bin/bash
