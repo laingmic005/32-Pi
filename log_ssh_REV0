@@ -1,0 +1,38 @@
+#!/bin/bash
+
+LOG_FILE="/home/mech/ssh_login.log"
+ACTIVE_SESSIONS="/home/mech/active_ssh_sessions.log"
+MONITOR_HOSTNAME="pibert.ad.uvu.edu"
+
+# Get the IP address of the incoming SSH connection
+SSH_CLIENT_IP=$(echo $SSH_CLIENT | awk '{print $1}')
+
+# Resolve the hostname from the IP address
+SSH_CLIENT_HOSTNAME=$(getent hosts $SSH_CLIENT_IP | awk '{print $2}')
+
+CURRENT_TIME=$(date +"%Y-%m-%d %H:%M:%S")
+
+# Generate a unique session ID using IP, username, and timestamp
+SESSION_ID="$SSH_CLIENT_HOSTNAME-$USER-$(date +%s)"
+
+# Log the login event
+if [ "$SSH_CLIENT_HOSTNAME" != "$MONITOR_HOSTNAME" ]; then
+    echo "$CURRENT_TIME - $SESSION_ID logged in" >> "$LOG_FILE"
+
+    # Run the connection status script in a new shell, in the background
+    bash -c "
+    # Ensure proper variable expansion within the new shell
+    ACTIVE_SESSIONS=\"$ACTIVE_SESSIONS\"
+    SESSION_ID=\"$SESSION_ID\"
+    
+    while true; do
+        CURRENT_TIME=\$(date +\"%Y-%m-%d %H:%M:%S\")
+        echo \"connected \$CURRENT_TIME - \$SESSION_ID\" >> \"\$ACTIVE_SESSIONS\"
+        sleep 1
+    done
+    " &
+fi
+
+# Allow the SSH session to continue
+exit 0
+
