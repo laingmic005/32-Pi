@@ -1,3 +1,6 @@
+# save as /etc/ssh/sshrc
+
+
 #!/bin/bash
 
 LOG_FILE="/home/mech/ssh_login.log"
