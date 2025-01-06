@@ -24,7 +24,7 @@ if [ "$SSH_CLIENT_HOSTNAME" != "$MONITOR_HOSTNAME" ]; then
     
     while true; do
         CURRENT_TIME=\$(date +\"%Y-%m-%d %H:%M:%S\")
-        echo -ne  \"SSH connection from \$SESSION_ID - \$CURRENT_TIME\r\" > \"\$ACTIV>
+        echo -ne  \"SSH connection from \$SESSION_ID - \$CURRENT_TIME\r\" > \"\$ACTIVE_SESSIONS\"
         sleep 1
     done
     " &
