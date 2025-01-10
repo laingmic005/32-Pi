@@ -1,0 +1,35 @@
+#!/bin/bash
+
+ACTIVE_SESSIONS="/home/mech/active_sessions.log"
+MONITOR_HOSTNAME="pibert.ad.uvu.edu"
+
+# Function to log the connection event
+log_connection() {
+    local SESSION_TYPE=$1
+    local SESSION_ID=$2
+    local CURRENT_TIME=$(date +"%Y-%m-%d %H:%M:%S")
+    echo "$SESSION_TYPE connection from $SESSION_ID - $CURRENT_TIME" >> "$ACTIVE_SESSIONS"
+}
+
+# Log SSH connections
+if [ -n "$SSH_CLIENT" ]; then
+    SSH_CLIENT_IP=$(echo $SSH_CLIENT | awk '{print $1}')
+    SSH_CLIENT_HOSTNAME=$(getent hosts $SSH_CLIENT_IP | awk '{print $2}')
+    SESSION_ID="$USER@$SSH_CLIENT_IP"
+    if [ "$SSH_CLIENT_HOSTNAME" != "$MONITOR_HOSTNAME" ]; then
+        log_connection "SSH" "$SESSION_ID"
+    fi
+fi
+
+# Log RDP connections
+if [ -n "$RDP_CLIENT" ]; then
+    RDP_CLIENT_IP=$(echo $RDP_CLIENT | awk '{print $1}')
+    RDP_CLIENT_HOSTNAME=$(getent hosts $RDP_CLIENT_IP | awk '{print $2}')
+    SESSION_ID="$USER@$RDP_CLIENT_IP"
+    if [ "$RDP_CLIENT_HOSTNAME" != "$MONITOR_HOSTNAME" ]; then
+        log_connection "RDP" "$SESSION_ID"
+    fi
+fi
+
+# Allow the session to continue
+exit 0
