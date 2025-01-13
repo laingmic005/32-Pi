@@ -128,7 +128,7 @@ clear_oled() # Clear the display
 welcome_msg = 'Retrieving data.\nPlease standby.' # Define welcome message to display on boot
 
 ###### BEGIN INITIALIZATION SEQUENCE ######
-print('\nRetrieving IP address and hostname\n')
+print('\nRetrieving IP address and hostname\n') # debug message
 
 # Show welcome message in the center of screen
 draw.text((0,20), welcome_msg, font = font_sm, fill = 1)
@@ -142,7 +142,7 @@ for i in range(0, load_size-1):
     draw.rectangle((0, 0, width, 22), outline=0, fill=0)  # Clear loading bar area
     draw.text((0, 0), f"[{d_text.ljust(load_size-2, ' ')}]", font=font_sm, fill=1)
     update_display()  # Update display with loading bar
-    print(f"[{d_text.ljust(load_size-2, ' ')}]", end = '\r')
+    print(f"[{d_text.ljust(load_size-2, ' ')}]", end = '\r') # debug message
 
     if boot_time < 2:
         break
@@ -154,7 +154,7 @@ hostname = get_hostname() # retrieve hostname
 
 # Draw IP address
 draw.text((0,0), f"IP: {ip_addr}", font = font_r, fill = 1)
-print(f'IP Address: {ip_addr}')
+print(f'IP Address: {ip_addr}') # debug message
 
 # Draw hostname
 if font_r.getbbox('A')[2] * (len(hostname) + 5) <= width:
@@ -162,12 +162,12 @@ if font_r.getbbox('A')[2] * (len(hostname) + 5) <= width:
 else:
     wrapped_hostname = wrap_text(hostname, width, font_r)
     draw.text((0, 20), f"HN: {wrapped_hostname}", font=font_r, fill=1)
-print(f'Hostname: {hostname}\n')
+print(f'Hostname: {hostname}\n') # debug message
 
 update_display() # update display with IP and hostname
 
 for i in range(init_time, -1, -1):
-    print(f'{i}' + ' '*5, end = '\r')
+    print(f'{i}' + ' '*5, end = '\r') # debug message
     time.sleep(1)
 
 ###### LOGIN STATUS SEQUENCE ######
@@ -201,19 +201,19 @@ while True:
     # get the current time
     current_time = datetime.now().strftime("%H:%M:%S")
 
-    # display SSH connection status on OLED
+    # display remote connection status on OLED
     if check_xrdp() or check_ssh():
         draw.rectangle((0,0,width, height), outline = 0, fill = 0)
         draw.rectangle((0, 0, width, 15), outline = 1, fill = 1)
         draw.text((0,0), 'User Online', font = font_b, fill = 0)
         draw.text((0, 20), current_time, font = font_b, fill = 1)
-        print('Remote user online - ' + current_time + ' '*80, end = '\r')
+        print('Remote user online - ' + current_time + ' '*80, end = '\r') # debug message
     else:
         draw.rectangle((0,0, width, height), outline = 0, fill = 0)
         # draw.rectangle((0, 0, 125, 15), outline = 1, fill = 0)
         draw.text((0,0), f'User Offline', font = font_b, fill = 1)
         draw.text((0, 20), current_time, font = font_b, fill = 1)
-        print(f'No remote connections detected - {current_time}' + ' '*80, end = '\r')
+        print(f'No remote connections detected - {current_time}' + ' '*80, end = '\r') # debug message
 
     draw.text((0, 40), f'IP: {ip_addr}', font = font_sm, fill = 1) # display IP address
 
