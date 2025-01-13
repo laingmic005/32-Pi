@@ -13,6 +13,7 @@ boot_time = 20 # time delay before IP and hostname are retrieved
 init_time = 10 # time hostanme and IP will be shown until login satus screen takes over
 
 ssh_log_file = "/home/mech/active_ssh_sessions.log"
+xrdp_log_file = "/var/log/xrdp.log"
 
 ###### DO NOT EDIT BELOW THIS LINE ######
 
@@ -170,31 +171,49 @@ for i in range(init_time, -1, -1):
     time.sleep(1)
 
 ###### LOGIN STATUS SEQUENCE ######
-while True:
-    # retrieve latest message from SSH log file.
+
+# Function to check for remote desktop user
+def check_xrdp():
+    with open(xrdp_log_file, 'r') as file:
+        lines = file.readlines()
+        if lines:
+            latest_log = lines[-1].strip()
+
+        if 'connected ok' in latest_log:
+            return True
+        else:
+            return False
+        
+# Function to check for SSH user
+def check_ssh():
     with open(ssh_log_file, 'r') as file:
-        log_message = file.read().split('\n')
-    try:
-        log_message = log_message[-2]
-    except IndexError:
-        log_message = log_message[-1]
-    
+        lines = file.readlines()
+        if lines:
+            latest_log = lines[-1].strip()
+
+            if latest_log != '':
+                return True
+            else:
+                return False
+
+
+while True:
     # get the current time
     current_time = datetime.now().strftime("%H:%M:%S")
 
     # display SSH connection status on OLED
-    if log_message != '':
+    if check_xrdp() or check_ssh():
         draw.rectangle((0,0,width, height), outline = 0, fill = 0)
         draw.rectangle((0, 0, width, 15), outline = 1, fill = 1)
-        draw.text((0,0), 'User Connected', font = font_b, fill = 0)
+        draw.text((0,0), 'User Online', font = font_b, fill = 0)
         draw.text((0, 20), current_time, font = font_b, fill = 1)
-        print(log_message + ' '*80, end = '\r')
+        print('Remote user online - ' + current_time + ' '*80, end = '\r')
     else:
         draw.rectangle((0,0, width, height), outline = 0, fill = 0)
         # draw.rectangle((0, 0, 125, 15), outline = 1, fill = 0)
         draw.text((0,0), f'User Offline', font = font_b, fill = 1)
         draw.text((0, 20), current_time, font = font_b, fill = 1)
-        print(f'No SSH connections detected - {current_time}' + ' '*80, end = '\r')
+        print(f'No remote connections detected - {current_time}' + ' '*80, end = '\r')
 
     draw.text((0, 40), f'IP: {ip_addr}', font = font_sm, fill = 1) # display IP address
 
