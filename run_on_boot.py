@@ -9,8 +9,8 @@ The complete script to run on boot, which includes content from:
 font_path = "/home/mech/projects/display/UbuntuMono-R.ttf"
 font_size = 17
 
-boot_time = 20 # time delay before IP and hostname are retrieved
-init_time = 10 # time hostanme and IP will be shown until login satus screen takes over
+boot_time = 5 # time delay before IP and hostname are retrieved
+init_time = 3 # time hostanme and IP will be shown until login satus screen takes over
 
 ssh_log_file = "/home/mech/active_ssh_sessions.log"
 xrdp_log_file = "/var/log/xrdp.log"
@@ -23,6 +23,8 @@ import time
 import smbus
 from PIL import Image, ImageDraw, ImageFont
 from datetime import datetime
+from w1thermsensor import W1ThermSensor, Sensor
+
 
 # load_fonts
 font_r = ImageFont.truetype(font_path, font_size)
@@ -179,10 +181,10 @@ def check_xrdp():
         if lines:
             latest_log = lines[-1].strip()
 
-        if 'connected ok' in latest_log:
-            return True
-        else:
-            return False
+            if 'connected ok' in latest_log:
+                return True
+            else:
+                return False
         
 # Function to check for SSH user
 def check_ssh():
@@ -196,24 +198,37 @@ def check_ssh():
             else:
                 return False
 
-
 while True:
     # get the current time
     current_time = datetime.now().strftime("%H:%M:%S")
+    sensor = W1ThermSensor(sensor_type=Sensor.DS18B20)
 
     # display remote connection status on OLED
     if check_xrdp() or check_ssh():
         draw.rectangle((0,0,width, height), outline = 0, fill = 0)
         draw.rectangle((0, 0, width, 15), outline = 1, fill = 1)
         draw.text((0,0), 'User Online', font = font_b, fill = 0)
-        draw.text((0, 20), current_time, font = font_b, fill = 1)
+       # draw.text((0, 20), current_time, font = font_b, fill = 1)
         print('Remote user online - ' + current_time + ' '*80, end = '\r') # debug message
     else:
         draw.rectangle((0,0, width, height), outline = 0, fill = 0)
         # draw.rectangle((0, 0, 125, 15), outline = 1, fill = 0)
         draw.text((0,0), f'User Offline', font = font_b, fill = 1)
-        draw.text((0, 20), current_time, font = font_b, fill = 1)
+        #draw.text((0, 20), current_time, font = font_b, fill = 1)
         print(f'No remote connections detected - {current_time}' + ' '*80, end = '\r') # debug message
+
+    try:
+        # Read temperature
+        temperature_celsius = sensor.get_temperature()
+        temperature_fahrenheit = temperature_celsius * 9.0 / 5.0 + 32.0
+
+        # Print the temperature
+        print(f"\tTemperature: {temperature_celsius:.2f} °C / {temperature_fahrenheit:.2f} °F", end = '\r')
+        draw.text((0, 20), f'{temperature_celsius:.2f} °C', font = font_b, fill = 1)
+
+    except Exception as e:
+        print(e, end = '\r')
+        
 
     draw.text((0, 40), f'IP: {ip_addr}', font = font_sm, fill = 1) # display IP address
 
