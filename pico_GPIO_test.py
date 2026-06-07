@@ -1,5 +1,5 @@
 '''
-Code written by Micah Laing on 2024-10-23 for the UVU Mechatronics 32 Pi project.
+Code written by Isabell Hudnall on 2024-10-23 for the UVU Mechatronics 32 Pi project.
 This program will test the GPIO outputs on the Raspberry Pico by blinking each LED
 one by one. Enter 'Ctrl+C' in the terminal to stop the program.
 '''
