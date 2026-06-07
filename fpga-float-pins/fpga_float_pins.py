@@ -1,5 +1,5 @@
 '''
-Code written by Micah Laing for the UVU Mechatronics 32 Pi project.
+Code written by Isabell Hudnall for the UVU Mechatronics 32 Pi project.
 This program will generate a Verilog file to float all the FPGA pins 
 so that they do not interfere with output from the Raspberry Pico
 '''
