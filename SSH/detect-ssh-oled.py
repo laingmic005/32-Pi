@@ -1,5 +1,5 @@
 '''
-Code written by Micah Laing on 8 January 2025. This program will detect if a user is
+Code written by Isabell Hudnall on 8 January 2025. This program will detect if a user is
 connected via SSH to the RPi-5 this code is running on and display the status on an
 external OLED via GPIO pins 17 & 27. You must be running the shell script that writes
 the status of SSH sessions to a log file.
