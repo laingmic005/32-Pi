@@ -1,5 +1,5 @@
 '''
-Code written by Micah Laing on 6 November 2024. This will display the IP Address and Hostname
+Code written by Isabell Hudnall on 6 November 2024. This will display the IP Address and Hostname
 of the Raspberry Pi using GPIO 17 & 27. To run this code, open /boot/firmware/config.txt and
 add the following line to the end of the file:
 
