@@ -1,5 +1,5 @@
 '''
-Code written by Micah Laing on 2024-10-23 for the UVU Mechatronics 32 Pi project. This program
+Code written by Isabell Hudnall on 2024-10-23 for the UVU Mechatronics 32 Pi project. This program
 will set the GPIO pins on the Pico to read the output from the FPGA, and interpret the output as a Binary
 number. The program will then convert and display that number in binary, decimal, and hexidecimal.
 
