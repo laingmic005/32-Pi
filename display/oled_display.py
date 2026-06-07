@@ -1,5 +1,5 @@
 '''
-Code written by Micah Laing on October 4, 2024 for the Mauna Kea
+Code written by Isabell Hudnall on October 4, 2024 for the Mauna Kea
 (32 Pi) Project.
 
 Acknowledgements: Zachary Pittman, for providing the template
