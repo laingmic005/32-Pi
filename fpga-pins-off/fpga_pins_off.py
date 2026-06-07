@@ -1,5 +1,5 @@
 '''
-Code written by Micah Laing on 2024-10-23 for the UVU Mechatronics 32 Pi project.
+Code written by Isabell Hudnall on 2024-10-23 for the UVU Mechatronics 32 Pi project.
 This program will generate a Verilog file that will pull down the FPGA pins.
 '''
 from myhdl import block, instance, Signal, delay
