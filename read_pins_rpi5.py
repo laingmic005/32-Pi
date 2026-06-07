@@ -1,5 +1,5 @@
 '''
-Code written by Micah Laing on 04 November 2024 for the UVU Mechatronics
+Code written by Isabell Hudnall on 04 November 2024 for the UVU Mechatronics
 Lab 32-pi project. This code will read output from FPGA and interpret it
 as a binary value from the RPi-5. It will then display the binary, integer,
 and hex value of that number on the OLED screen.
