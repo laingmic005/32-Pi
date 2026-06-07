@@ -1,5 +1,5 @@
 '''
-Code written by Micah Laing on 2024-10-23 for the UVU Mechatronics 32 Pi project.
+Code written by Isabell Hudnall on 2024-10-23 for the UVU Mechatronics 32 Pi project.
 This program will float all the pins on the Pico by changing them to inputs so that
 the Pico will not interfere with the FPGA output.
 '''
